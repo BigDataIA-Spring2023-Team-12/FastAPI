@@ -1,7 +1,7 @@
 import boto3
 import io
 from decouple import config
-
+import os
 
 # function to transfer files between two AWS buckets and create a download link
 def upload_file_to_s3(file_name, prefix, source_bucket_name, target_bucket_name):
@@ -17,8 +17,8 @@ def upload_file_to_s3(file_name, prefix, source_bucket_name, target_bucket_name)
     """
     # Create an S3 client and an S3 resource
     s3_client = boto3.client('s3')
-    session = boto3.Session(aws_access_key_id=config("aws_access_key_id"),
-                            aws_secret_access_key=config("aws_secret_access_key"))
+    # crate session
+    session = boto3.Session( aws_access_key_id= os.getenv("AWS_ACCESS_KEY_ID"),aws_secret_access_key= os.getenv("AWS_SECRET_ACCESS_KEY"))
     s3_resource = session.resource('s3')
     # Get file from source bucket
     # Create a source object from the S3 resource
